@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  title: Store Management API
+  version: 1.0.0
+  description: API for managing store details including address information
+paths:
+  /stores:
+    get:
+      summary: List all stores
+      responses:
+        '200':
+          description: A list of stores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+    post:
+      summary: Create a new store
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewStore'
+      responses:
+        '201':
+          description: Store created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+  /stores/{store_id}:
+    get:
+      summary: Get details of a store
+      parameters:
+        - in: path
+          name: store_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the store to get
+      responses:
+        '200':
+          description: Store details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '404':
+          description: Store not found
+    put:
+      summary: Update a store
+      parameters:
+        - in: path
+          name: store_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the store to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewStore'
+      responses:
+        '200':
+          description: Store updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '404':
+          description: Store not found
+    delete:
+      summary: Delete a store
+      parameters:
+        - in: path
+          name: store_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the store to delete
+      responses:
+        '204':
+          description: Store deleted
+        '404':
+          description: Store not found
+components:
+  schemas:
+    Store:
+      type: object
+      properties:
+        store_id:
+          type: integer
+        store_name:
+          type: string
+        store_contact_number:
+          type: string
+        fssai_license:
+          type: string
+        gst_number:
+          type: string
+        address:
+          type: object
+          properties:
+            address:
+              type: string
+            branch_location:
+              type: string
+            postal_code:
+              type: string
+            district:
+              type: string
+            state:
+              type: string
+    NewStore:
+      type: object
+      properties:
+        store_name:
+          type: string
+        store_contact_number:
+          type: string
+        fssai_license:
+          type: string
+        gst_number:
+          type: string
+        address:
+          type: object
+          properties:
+            address:
+              type: string
+            branch_location:
+              type: string
+            postal_code:
+              type: string
+            district:
+              type: string
+            state:
+              type: string
+      required:
+        - store_name
+        - store_contact_number
+        - fssai_license
+        - address

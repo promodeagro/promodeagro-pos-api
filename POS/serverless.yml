@@ -1,0 +1,33 @@
+service: pos
+
+frameworkVersion: "3"
+plugins:
+- serverless-offline
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+
+functions:
+  AddUser:
+    handler: Pos_Store/addStore.addStore
+    events:
+      - http:
+          path: addStore
+          method: post
+  
+  getAllStores:
+    handler: Pos_Store/getAllStore.getAllStores
+    events:
+      - http:
+          path: stores
+          method: get
+          cors: true
+
+  getAllStoreFilter:
+    handler: Pos_Store/getStoreByFilter.getAllStoreFilter
+    events:
+      - http:
+          path: storesFilter
+          method: get
+          cors: true
